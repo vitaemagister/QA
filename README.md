@@ -15,5 +15,12 @@ Structure
 
  -videos
 
+ -pdf
+ 
+ -docs
+
+ -archives
+
+ -audio
 
 END for now
