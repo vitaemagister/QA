@@ -1,8 +1,10 @@
-First iteration of QA work tools
+QA work tools
+
+*Work in progress*
 
 Structure
 
--Files
+-files
  -images
   -jpg
   -png
@@ -25,10 +27,17 @@ Structure
 
  -audio
  
+ -templates
+  -bug report UA
+
+-site = Drafts of Test site may be removed
+
+  
 Should be added: 
 1. RTL texts. 
 2. More language text: cyrrilic = ukrainian, hebrew.
 3. Test plan template
 4. Checklist template
+
 
 END for now
