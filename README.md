@@ -34,7 +34,7 @@ Testing and in progress work in Tests branch
 -site = Drafts of Test site may be removed
 -server
 -script
-  
+
 Should be added: 
 1. RTL texts. 
 2. More language text: cyrrilic = ukrainian, hebrew.
