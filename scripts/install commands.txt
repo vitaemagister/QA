@@ -1,0 +1,14 @@
+sudo apt install flatpak
+OR
+sudo pacman -S flatpak
+ 
+flatpak install brave chrome code edge spotify postman teams slack docker protonvpn thunderbird bitwarden flameshot
+
+Counters
+bitwarden
+flameshot
+
+
+sudo apt install -y flatpak docker.io || sudo pacman -S --noconfirm flatpak docker && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install -y flathub com.brave.Browser com.google.Chrome com.visualstudio.code com.microsoft.Edge com.spotify.Client com.getpostman.Postman com.slack.Slack com.microsoft.Teams com.protonvpn.www org.mozilla.Thunderbird io.github.whaler_software.Whaler
+
+sudo apt install -y flatpak || sudo pacman -S --noconfirm flatpak && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install -y flathub com.brave.Browser com.google.Chrome com.visualstudio.code com.microsoft.Edge com.spotify.Client com.getpostman.Postman com.slack.Slack com.microsoft.Teams com.protonvpn.www org.mozilla.Thunderbird io.github.whaler_software.Whaler
