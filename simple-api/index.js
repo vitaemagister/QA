@@ -66,7 +66,71 @@ app.post("/users", async (req, res) => {
   }
 });
 
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, password_hash } = req.body;
 
+    const result = await pool.query(
+      "UPDATE users SET email = $1, password_hash = $2 WHERE id = $3 RETURNING *;",
+      [email, password_hash, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+app.patch("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, password_hash } = req.body;
+
+    // Отримуємо поточні дані користувача
+    const existing = await pool.query("SELECT * FROM users WHERE id = $1;", [id]);
+    if (existing.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Якщо нове поле не передано — залишаємо старе
+    const newEmail = email || existing.rows[0].email;
+    const newPassword = password_hash || existing.rows[0].password_hash;
+
+    // Оновлюємо лише ті, що змінилися
+    const result = await pool.query(
+      "UPDATE users SET email = $1, password_hash = $2 WHERE id = $3 RETURNING *;",
+      [newEmail, newPassword, id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query("DELETE FROM users WHERE id = $1 RETURNING *;", [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "User deleted successfully", deleted: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
 // 🔹 Запуск сервера
 app.listen(3000, () => {
