@@ -1,8 +1,11 @@
 sudo apt install flatpak
 OR
 sudo pacman -S flatpak
- 
-flatpak install brave chrome code edge spotify postman teams slack protonvpn thunderbird bitwarden flameshot
+
+
+flatpak install flathub com.google.Chrome com.brave.Browser
+
+flatpak install brave chrome code edge spotify postman teams slack protonvpn thunderbird bitwarden flameshot copyq zoom
 
 Counters
 bitwarden
