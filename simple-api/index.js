@@ -1,16 +1,16 @@
-const express = require("express");
-const { Pool } = require("pg");
+import express from "express";
+import pkg from "pg";          // імпорт всього пакету
+const { Pool } = pkg;         // витягуємо Pool один раз
 
 const app = express();
 app.use(express.json());
 
-// 🔹 Підключення до PostgreSQL
 const pool = new Pool({
-  user: "appuser",
-  password: "strongpassword",
-  host: "localhost",
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
   port: 5432,
-  database: "appdb"
 });
 
 // 🔹 API — отримати всіх користувачів
@@ -20,7 +20,7 @@ app.get("/users", async (req, res) => {
     res.json(result.rows); // Повертає масив користувачів у JSON
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Database error" });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -132,7 +132,4 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
-// 🔹 Запуск сервера
-app.listen(3000, () => {
-  console.log("✅ Server running at http://localhost:3000");
-});
+app.listen(3000, '0.0.0.0', () => console.log("API running on port 3000"));
