@@ -1,47 +1,22 @@
-QA work tools
+# QA Tools & Utilities
 
-*Work in progress*
+A collection of usefull things for **Manual QA Engineers**.  
+Everything you need to quickly set up a testing environment, run API tools, or automate your workflow.
 
-Structure
+## Project Structure
 
--files
- -images
-  -jpg
-  -png
-  -bmp
-  -svg
-  -tiff
-  -webp
+QA/
+├── files / # Useful files such as images, videos, docs etc.
+├── scripts/ # Bash utilities for useful QA applications setup (in progress)
+├── server/ # mailhog for local emails (to review)
+├── site/ # Simple frontend for test scenarios (to delete \ to rework)
+├── simple-api/ # DB + server API for it + json API collection  
+└── README.md
 
- -text
+//## ⚙️ Quick Start
 
- -videos
+//### 1. Clone the repository
 
- -pdf
- 
- -docs
-  -excel
-  -word
+//git clone https://github.com/vitaemagister/QA.git
+//cd QA
 
- -archives
-
- -audio
- 
- -templates
-  -bug report UA
-
--site = Drafts of Test site may be removed
-<<<<<<< HEAD
-
-
--server
--script
-
-Should be added: 
-1. RTL texts. 
-2. More language text: cyrrilic = ukrainian, hebrew.
-3. Test plan template
-4. Checklist template
-
-
-END for now
