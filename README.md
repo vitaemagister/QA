@@ -7,7 +7,7 @@ Everything you need to quickly set up a testing environment, run API tools, or a
 
 QA
 
-1. files / Useful files such as images, videos, docs etc.
+1. files / Useful test files such as images, videos, docs etc.
 2. scripts/ Bash utilities for useful QA applications setup (in progress)
 3. server/ mailhog for local emails (to review)
 4. simple-api/ DB + server API for it + json API collection

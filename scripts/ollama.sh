@@ -10,4 +10,4 @@ sudo systemctl enable ollama
 
 sudo systemctl start ollama
 
-
+ollama serve
