@@ -1,6 +1,8 @@
-1. https://lipsum.com/ - to add description
-2. https://json-generator.com/ -
-3. https://temp-mail.org/
-4. https://www.mail-tester.com/
-5. https://gtmetrix.com/
-6. http://JWT.io -
+1. https://lipsum.com/ - Generates Lorem Ipsum placeholder text for mockups, templates, and testing UI content.
+2. https://json-generator.com/ - Creates custom fake JSON data structures for API testing and development.
+3. https://temp-mail.org/ - Provides temporary disposable email addresses for testing or registration without using your real one.
+4. https://www.mail-tester.com/ - Analyzes email deliverability and spam score by testing your email’s headers, SPF, DKIM, and content.
+5. https://gtmetrix.com/ - Tests and reports website performance, load time, and Core Web Vitals with detailed optimization tips.
+6. http://JWT.io - Lets you decode, verify, and generate JSON Web Tokens (JWTs) for authentication testing.
+7. https://regex101.com/ - Online regex tester with real-time explanations for debugging regular expressions.
+8. https://mockaroo.com/ - Generates realistic mock data (CSV, JSON, SQL, etc.) with custom fields and types.
