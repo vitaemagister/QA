@@ -6,3 +6,4 @@
 6. http://JWT.io - Lets you decode, verify, and generate JSON Web Tokens (JWTs) for authentication testing.
 7. https://regex101.com/ - Online regex tester with real-time explanations for debugging regular expressions.
 8. https://mockaroo.com/ - Generates realistic mock data (CSV, JSON, SQL, etc.) with custom fields and types.
+9. https://pairwise.teremokgames.com/ - Site for Pairwise / all cases table creation
