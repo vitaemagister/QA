@@ -34,6 +34,7 @@ Additional info https://kiwitcms.org/
 https://kiwitcms.readthedocs.io/en/latest/installing_docker.html
 
 ```
+cd QA/Kiwi_testcase_managment
 chmod +x kiwi.install.sh
 ./kiwi.install.sh
 ```
