@@ -1,0 +1,20 @@
+Generate test cases for the "User Registration" function
+Format: ID, Title, Preconditions, Steps, Expected Result
+Include both positive and negative scenarios.
+
+Create a bug report for the issue:
+When entering a password longer than 50 characters, the page freezes.
+Format: Summary, Steps to Reproduce, Actual Result, Expected Result, Priority, Severity
+
+Generate 10 examples of email addresses (valid and invalid)
+for testing the registration form.
+
+Create a test set for the API endpoint:
+POST /api/v1/login (fields: email, password)
+Describe positive and negative test cases.
+
+Write an SQL query:
+Retrieve all users who registered in September 2025 but did not make any orders.
+
+Create a checklist for testing CRUD operations on "Order",
+for example in a "Test Store" application.
