@@ -7,3 +7,9 @@
 7. https://regex101.com/ - Online regex tester with real-time explanations for debugging regular expressions.
 8. https://mockaroo.com/ - Generates realistic mock data (CSV, JSON, SQL, etc.) with custom fields and types.
 9. https://pairwise.teremokgames.com/ - Site for Pairwise / all cases table creation
+10. https://flameshot.org/ - Flameshot is a free and open-source, cross-platform tool to take screenshots with many features
+11. Search for pixel perfect for chrome\firefox plugin - Pixel perfect must have tool for UI tests
+12. https://learning.postman.com/ - postman documentation some usefull examples 
+https://learning.postman.com/docs/tests-and-scripts/write-scripts/variables-list/ - dynamic variables for built in random data generator
+https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-examples/ - scripts examples for pre \ post 
+https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/ command-line tool for running Postman Collections 
