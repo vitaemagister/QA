@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ubuntu-gui:
+    build: .
+    container_name: ubuntu-gui-qa
+    ports:
+      - "6080:6080"  # noVNC web interface
+      - "5901:5901"  # VNC port (optional, for VNC clients)
+    environment:
+      - DISPLAY=:1
+      - VNC_RESOLUTION=1920x1080
+    volumes:
+      - ./workspace:/home/qauser/workspace  # Shared folder for your files
+      - qa-data:/home/qauser/qa-data        # Persistent volume for QA data
+    shm_size: '2gb'  # Shared memory for browser testing
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+volumes:
+  qa-data:
+    driver: local

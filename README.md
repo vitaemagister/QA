@@ -38,6 +38,21 @@ cd QA/Kiwi_testcase_managment
 chmod +x kiwi.install.sh
 ./kiwi.install.sh
 ```
+### 3. For simple-api install
 
+simple-api and postman collection for it with PostgreSQL
+All components run using Docker Compose.
+
+```
+To run, navigate to QA/simple-api and execute:
+docker compose up -d
+
+For DB access
+docker exec -it pg psql -U appuser -d appdb 
+
+Import the Postman collection from QA/simple-api/postman_collection.json into Postman
+
+
+```
 ## Glory to Ukraine
 ![Project Preview](/files/ua_flag.webp)
