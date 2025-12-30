@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple API - User Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>👥 User Manager API</h1>
+    
+    <!-- Get All Users -->
+    <section class="card">
+      <h2>Get All Users</h2>
+      <button onclick="getAllUsers()" class="btn btn-primary">Load Users</button>
+      <div id="usersList" class="results"></div>
+    </section>
+
+    <!-- Get User by ID -->
+    <section class="card">
+      <h2>Get User by ID</h2>
+      <input type="number" id="userId" placeholder="Enter User ID" min="1">
+      <button onclick="getUserById()" class="btn btn-secondary">Search</button>
+      <div id="singleUser" class="results"></div>
+    </section>
+
+    <!-- Create New User -->
+    <section class="card">
+      <h2>Create New User</h2>
+      <input type="email" id="newEmail" placeholder="Email">
+      <input type="password" id="newPassword" placeholder="Password Hash">
+      <button onclick="createUser()" class="btn btn-success">Create User</button>
+      <div id="createResult" class="results"></div>
+    </section>
+
+    <!-- Update User -->
+    <section class="card">
+      <h2>Update User</h2>
+      <input type="number" id="updateId" placeholder="User ID" min="1">
+      <input type="email" id="updateEmail" placeholder="New Email">
+      <input type="password" id="updatePassword" placeholder="New Password Hash">
+      <button onclick="updateUser()" class="btn btn-warning">Update</button>
+      <div id="updateResult" class="results"></div>
+    </section>
+
+    <!-- Delete User -->
+    <section class="card">
+      <h2>Delete User</h2>
+      <input type="number" id="deleteId" placeholder="User ID" min="1">
+      <button onclick="deleteUser()" class="btn btn-danger">Delete</button>
+      <div id="deleteResult" class="results"></div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
