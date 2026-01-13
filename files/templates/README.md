@@ -1,28 +1,12 @@
-# 📝 QA Templates
+# QA Templates
 
 Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 🐛 Bug Report Templates
+## Bug Report Templates
 
-### 🇺🇦 Ukrainian Version
-**File:** [`bug_report_template_UA.docx`](bug_report_template_UA.docx)
-
-**Includes:**
-- Bug ID & Title
-- Steps to reproduce (Кроки відтворення)
-- Expected vs Actual results (Очікуваний/Фактичний результат)
-- Severity & Priority (Серйозність і Пріоритет)
-- Environment details (Оточення)
-- Screenshots section
-
-**Use for:** Documenting bugs in Ukrainian projects
-
----
-
-### 🇬🇧 English Version
-**File:** [`bug_report_template_en.docx`](bug_report_template_en.docx)
+**File:** [`bug_report_template_en.docx`](bug_report_template_en.docx) (Ukrainian version also available)
 
 **Includes:**
 - Bug ID & Title
@@ -32,11 +16,11 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 - Environment details
 - Screenshots section
 
-**Use for:** International projects, bug tracking systems
+**Use for:** Documenting bugs, bug tracking systems
 
 ---
 
-## ✅ Test Case Template
+## Test Case Template
 
 **File:** [`test_case_en.xlsx`](test_case_en.xlsx)
 
@@ -58,26 +42,9 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 📋 Test Plan Templates
+## Test Plan Templates
 
-### 🇺🇦 Ukrainian Version
-**File:** [`test_plan_ua.docx`](test_plan_ua.docx)
-
-**Sections:**
-- Project overview (Огляд проекту)
-- Testing scope (Обсяг тестування)
-- Test strategy (Стратегія тестування)
-- Test schedule (Графік тестування)
-- Resources (Ресурси)
-- Risks & Mitigation (Ризики та їх пом'якшення)
-- Deliverables (Результати)
-
-**Use for:** Planning testing activities for Ukrainian teams
-
----
-
-### 🇬🇧 English Version
-**File:** [`test_plan_en.docx`](test_plan_en.docx)
+**File:** [`test_plan_en.docx`](test_plan_en.docx) (Ukrainian version also available)
 
 **Sections:**
 - Project overview
@@ -92,7 +59,7 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 🚀 How to Use
+## How to Use
 
 1. **Download** the template you need
 2. **Open** in Microsoft Word or Excel (or compatible software like LibreOffice)
@@ -102,7 +69,7 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 📦 Template Compatibility
+## Template Compatibility
 
 | Template | Format | Compatible With |
 |----------|--------|----------------|
@@ -112,7 +79,7 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **Bug Reports:** Always include clear reproduction steps and expected behavior
 - **Test Cases:** Keep test steps atomic and specific
@@ -122,7 +89,7 @@ Ready-to-use templates for QA documentation in English and Ukrainian.
 
 ---
 
-## 🔗 Related Resources
+## Related Resources
 
 - See [`misc/useful_resources_links.txt`](../../misc/useful_resources_links.txt) for bug tracking tools
 - Use [`Kiwi_testcase_management/`](../../Kiwi_testcase_management/) for digital test case management
