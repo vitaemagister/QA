@@ -1,9 +1,22 @@
 import express from "express";
 import pkg from "pg";          // імпорт всього пакету
+import path from "path";
+import { fileURLToPath } from "url";
 const { Pool } = pkg;         // витягуємо Pool один раз
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// CORS для доступу з фронтенду
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 const pool = new Pool({
   user: process.env.DATABASE_USER,
@@ -11,6 +24,11 @@ const pool = new Pool({
   database: process.env.DATABASE_NAME,
   password: process.env.DATABASE_PASSWORD,
   port: 5432,
+});
+
+// Маршрут для кореневої сторінки
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 🔹 API — отримати всіх користувачів
