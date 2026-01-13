@@ -5,7 +5,7 @@ Everything you need to quickly set up a testing environment, run API tools, or a
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 QA/
@@ -22,61 +22,58 @@ QA/
 
 ---
 
-## 📋 Components Overview
+## Components Overview
 
-### 🤖 **simple-api/** - REST API with Web Interface
+### **simple-api/** - REST API with Web Interface
 Full-stack user management system for practicing CRUD operations.
 - **Tech:** Express.js + PostgreSQL + Docker
 - **Includes:** REST API, Web UI, Postman collection
 - **Use for:** API testing, SQL practice, authentication flows
 - **Access:** http://localhost:3000 (after `docker compose up -d`)
 
-### 📧 **email_server/** - Local Email Testing (MailHog)
+### **email_server/** - Local Email Testing (MailHog)
 Catch and inspect emails without sending to real addresses.
 - **Tech:** MailHog + Docker
 - **Includes:** SMTP server (port 1025), Web UI (port 8025)
 - **Use for:** Email registration flows, template testing, spam checking
 - **Access:** http://localhost:8025 (after `docker compose up -d`)
 
-### 🗂️ **files/** - Test File Repository
+### **files/** - Test File Repository
 Ready-to-use test files for various testing scenarios.
 - **Categories:** images, videos, audio (silent/with sound), docs, PDFs, text, archives
 - **Special files:** Empty files, 0-10000 symbol files
 - **Use for:** File upload testing, format validation, boundary testing
 
-### 🧪 **site/** - Practice Testing Website
+### **site/** - Practice Testing Website
 Simple frontend with intentional bugs for testing practice.
-- **Features:** Buggy forms, multi-language support (UA/EN)
+- **Features:** Buggy forms, multi-language support
 - **Use for:** Finding UI bugs, manual testing practice, bug reporting
 - **Access:** Open `site/index.html` in browser
 
-### 🧰 **scripts/** - Automated Tool Installation
+### **scripts/** - Automated Tool Installation
 Quick setup of QA tools on Linux systems.
 - **Tools:** Postman, Insomnia, Bruno, Chrome, Firefox, Brave
 - **Usage:** `cd scripts && ./install-tools.sh`
 - **Platform:** Ubuntu/Debian Linux
 
-### 📝 **Kiwi_testcase_management/** - Test Case Management
+### **Kiwi_testcase_management/** - Test Case Management
 Self-hosted test management system (Kiwi TCMS).
 - **Features:** Test case management, test plans, execution tracking
 - **Installation:** Run `./kiwi_install.sh`
 - **Docs:** https://kiwitcms.org/
 
-### 🤖 **AI/** - AI Prompts for QA
-Ready-to-use prompts for AI-assisted testing.
-- **Languages:** Ukrainian and English
+### **AI/** - AI Prompts for QA
+Ready-to-use prompts for AI-assisted testing (English and Ukrainian versions available).
 - **Use for:** Generate test cases, get test data, learn QA practices
 
-### 🔗 **misc/** - Useful Resources
+### **misc/** - Useful Resources
 Curated list of 15+ essential QA tools and websites.
 - **Includes:** Test data generators, temp emails, performance tools, regex testers
 - **File:** `useful_resources_links.txt`
 
 ---
 
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the repository
 
@@ -103,7 +100,7 @@ Then open: **http://localhost:3000**
 - Test API endpoints with Postman collection
 - Practice SQL queries: `docker exec -it pg psql -U appuser -d appdb`
 
-📖 [Full API documentation](simple-api/API.md)
+[Full API documentation](simple-api/API.md)
 
 ---
 
@@ -135,8 +132,8 @@ chmod +x kiwi_install.sh
 ./kiwi_install.sh
 ```
 
-📖 [Kiwi TCMS Documentation](https://kiwitcms.org/)  
-📖 [Installation Guide](https://kiwitcms.readthedocs.io/en/latest/installing_docker.html)
+[Kiwi TCMS Documentation](https://kiwitcms.org/)  
+[Installation Guide](https://kiwitcms.readthedocs.io/en/latest/installing_docker.html)
 
 ---
 
@@ -154,7 +151,7 @@ chmod +x install-tools.sh
 
 ---
 
-## 🎯 Quick Start by Use Case
+## Quick Start by Use Case
 
 | I want to... | Command | Access |
 |-------------|---------|--------|
@@ -167,7 +164,7 @@ chmod +x install-tools.sh
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **Test files:** Check `files/` for images, videos, docs, PDFs
 - **Useful links:** See `misc/useful_resources_links.txt` for 15+ QA tools
@@ -175,7 +172,7 @@ chmod +x install-tools.sh
 
 ---
 
-## 🛑 Stop Services
+## Stop Services
 
 ```bash
 # Stop Simple API
