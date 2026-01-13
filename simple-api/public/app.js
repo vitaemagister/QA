@@ -1,5 +1,12 @@
 const API_URL = 'http://localhost:3000';
 
+// Завантажити користувачів при завантаженні сторінки
+window.addEventListener('load', () => {
+  getAllUsers();
+  // Оновлювати список кожні 5 секунд
+  setInterval(getAllUsers, 5000);
+});
+
 // Utility function to display results
 function showResult(elementId, data, isError = false) {
   const resultEl = document.getElementById(elementId);
