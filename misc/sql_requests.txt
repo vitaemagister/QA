@@ -1,0 +1,251 @@
+-- ============================================
+-- Приклади SQL запитів для QA тестування
+-- ============================================
+
+-- ===========================================
+-- SELECT - Отримання даних
+-- ===========================================
+
+-- Всі користувачі
+SELECT * FROM users;
+
+-- Активні користувачі
+SELECT * FROM users WHERE is_active = TRUE;
+
+-- Користувач по email
+SELECT * FROM users WHERE email = 'john@example.com';
+
+-- Користувачі з певного міста
+SELECT * FROM users WHERE city = 'Kyiv';
+
+-- Користувачі старші 30 років
+SELECT * FROM users WHERE age > 30;
+
+-- Всі пости
+SELECT * FROM posts;
+
+-- Пости конкретного користувача
+SELECT * FROM posts WHERE user_id = 1;
+
+-- Пости з більш ніж 10 лайків
+SELECT * FROM posts WHERE likes > 10;
+
+-- Пости з сортуванням
+SELECT * FROM posts ORDER BY likes DESC;
+
+-- Останні 3 пости
+SELECT * FROM posts ORDER BY created_at DESC LIMIT 3;
+
+-- Коментарі конкретного поста
+SELECT * FROM comments WHERE post_id = 1;
+
+-- ===========================================
+-- JOIN - З'єднання таблиць
+-- ===========================================
+
+-- Пости з іменами авторів
+SELECT 
+    posts.id,
+    posts.title,
+    users.name as author,
+    posts.likes
+FROM posts
+JOIN users ON posts.user_id = users.id;
+
+-- Коментарі з іменами авторів і назвами постів
+SELECT 
+    comments.text,
+    users.name as author,
+    posts.title as post_title
+FROM comments
+JOIN users ON comments.user_id = users.id
+JOIN posts ON comments.post_id = posts.id;
+
+-- Користувачі з кількістю їх постів
+SELECT 
+    users.name,
+    users.email,
+    COUNT(posts.id) as posts_count
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id
+ORDER BY posts_count DESC;
+
+-- ===========================================
+-- INSERT - Додавання даних
+-- ===========================================
+
+-- Додати нового користувача
+INSERT INTO users (name, email, age, city) 
+VALUES ('Test User', 'test@example.com', 25, 'Kyiv');
+
+-- Додати новий пост
+INSERT INTO posts (user_id, title, content, likes) 
+VALUES (1, 'New Post', 'Content here', 0);
+
+-- Додати коментар
+INSERT INTO comments (post_id, user_id, text) 
+VALUES (1, 2, 'Nice post!');
+
+-- ===========================================
+-- UPDATE - Оновлення даних
+-- ===========================================
+
+-- Оновити ім'я користувача
+UPDATE users 
+SET name = 'John Updated' 
+WHERE id = 1;
+
+-- Збільшити лайки поста
+UPDATE posts 
+SET likes = likes + 1 
+WHERE id = 1;
+
+-- Деактивувати користувача
+UPDATE users 
+SET is_active = FALSE 
+WHERE email = 'test@example.com';
+
+-- Оновити декілька полів
+UPDATE users 
+SET age = 29, city = 'Lviv' 
+WHERE id = 1;
+
+-- ===========================================
+-- DELETE - Видалення даних
+-- ===========================================
+
+-- Видалити коментар
+DELETE FROM comments WHERE id = 1;
+
+-- Видалити пост
+DELETE FROM posts WHERE id = 5;
+
+-- Видалити користувача (каскадно видалить його пости і коментарі)
+DELETE FROM users WHERE email = 'test@example.com';
+
+-- Видалити неактивних користувачів
+DELETE FROM users WHERE is_active = FALSE;
+
+-- ===========================================
+-- COUNT, SUM, AVG - Агрегатні функції
+-- ===========================================
+
+-- Загальна кількість користувачів
+SELECT COUNT(*) as total_users FROM users;
+
+-- Кількість активних користувачів
+SELECT COUNT(*) as active_users 
+FROM users 
+WHERE is_active = TRUE;
+
+-- Середній вік користувачів
+SELECT AVG(age) as average_age FROM users;
+
+-- Загальна кількість лайків
+SELECT SUM(likes) as total_likes FROM posts;
+
+-- Кількість постів кожного користувача
+SELECT 
+    user_id,
+    COUNT(*) as posts_count 
+FROM posts 
+GROUP BY user_id;
+
+-- ===========================================
+-- LIKE - Пошук по шаблону
+-- ===========================================
+
+-- Користувачі з ім'ям що містить "John"
+SELECT * FROM users WHERE name LIKE '%John%';
+
+-- Email що закінчується на example.com
+SELECT * FROM users WHERE email LIKE '%@example.com';
+
+-- Пости з заголовком що починається з "Hello"
+SELECT * FROM posts WHERE title LIKE 'Hello%';
+
+-- ===========================================
+-- BETWEEN - Діапазон значень
+-- ===========================================
+
+-- Користувачі віком від 25 до 30
+SELECT * FROM users WHERE age BETWEEN 25 AND 30;
+
+-- ===========================================
+-- IN - Список значень
+-- ===========================================
+
+-- Користувачі з певних міст
+SELECT * FROM users 
+WHERE city IN ('Kyiv', 'Lviv', 'Odesa');
+
+-- ===========================================
+-- ORDER BY - Сортування
+-- ===========================================
+
+-- Користувачі по віку (від молодших до старших)
+SELECT * FROM users ORDER BY age ASC;
+
+-- Пости по кількості лайків (від більших до менших)
+SELECT * FROM posts ORDER BY likes DESC;
+
+-- Користувачі по даті реєстрації
+SELECT * FROM users ORDER BY created_at DESC;
+
+-- ===========================================
+-- LIMIT & OFFSET - Пагінація
+-- ===========================================
+
+-- Перші 3 користувачі
+SELECT * FROM users LIMIT 3;
+
+-- 3 користувачі починаючи з 4-го
+SELECT * FROM users LIMIT 3 OFFSET 3;
+
+-- ===========================================
+-- Складніші запити для тестування
+-- ===========================================
+
+-- Топ 3 найпопулярніших постів з авторами
+SELECT 
+    posts.title,
+    users.name as author,
+    posts.likes
+FROM posts
+JOIN users ON posts.user_id = users.id
+ORDER BY posts.likes DESC
+LIMIT 3;
+
+-- Користувачі без постів
+SELECT users.* 
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+WHERE posts.id IS NULL;
+
+-- Кількість коментарів для кожного поста
+SELECT 
+    posts.title,
+    COUNT(comments.id) as comments_count
+FROM posts
+LEFT JOIN comments ON posts.id = comments.post_id
+GROUP BY posts.id
+ORDER BY comments_count DESC;
+
+sql-- Показати всі таблиці
+\dt
+
+-- Структура таблиці
+\d users
+
+-- Всі бази даних
+\l
+
+-- Вийти
+\q
+
+-- Виконати SQL з файлу
+\i /path/to/file.sql
+
+-- Показати всі індекси
+\di
