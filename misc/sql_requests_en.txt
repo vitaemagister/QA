@@ -1,0 +1,255 @@
+-- ============================================
+-- SQL Query Examples for QA Testing
+-- ============================================
+
+-- ===========================================
+-- SELECT - Retrieving Data
+-- ===========================================
+
+-- All users
+SELECT * FROM users;
+
+-- Active users
+SELECT * FROM users WHERE is_active = TRUE;
+
+-- User by email
+SELECT * FROM users WHERE email = 'john@example.com';
+
+-- Users from specific city
+SELECT * FROM users WHERE city = 'Kyiv';
+
+-- Users older than 30
+SELECT * FROM users WHERE age > 30;
+
+-- All posts
+SELECT * FROM posts;
+
+-- Posts by specific user
+SELECT * FROM posts WHERE user_id = 1;
+
+-- Posts with more than 10 likes
+SELECT * FROM posts WHERE likes > 10;
+
+-- Posts with sorting
+SELECT * FROM posts ORDER BY likes DESC;
+
+-- Last 3 posts
+SELECT * FROM posts ORDER BY created_at DESC LIMIT 3;
+
+-- Comments on specific post
+SELECT * FROM comments WHERE post_id = 1;
+
+-- ===========================================
+-- JOIN - Joining Tables
+-- ===========================================
+
+-- Posts with author names
+SELECT 
+    posts.id,
+    posts.title,
+    users.name as author,
+    posts.likes
+FROM posts
+JOIN users ON posts.user_id = users.id;
+
+-- Comments with author names and post titles
+SELECT 
+    comments.text,
+    users.name as author,
+    posts.title as post_title
+FROM comments
+JOIN users ON comments.user_id = users.id
+JOIN posts ON comments.post_id = posts.id;
+
+-- Users with their post count
+SELECT 
+    users.name,
+    users.email,
+    COUNT(posts.id) as posts_count
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id
+ORDER BY posts_count DESC;
+
+-- ===========================================
+-- INSERT - Adding Data
+-- ===========================================
+
+-- Add new user
+INSERT INTO users (name, email, age, city) 
+VALUES ('Test User', 'test@example.com', 25, 'Kyiv');
+
+-- Add new post
+INSERT INTO posts (user_id, title, content, likes) 
+VALUES (1, 'New Post', 'Content here', 0);
+
+-- Add comment
+INSERT INTO comments (post_id, user_id, text) 
+VALUES (1, 2, 'Nice post!');
+
+-- ===========================================
+-- UPDATE - Updating Data
+-- ===========================================
+
+-- Update user name
+UPDATE users 
+SET name = 'John Updated' 
+WHERE id = 1;
+
+-- Increase post likes
+UPDATE posts 
+SET likes = likes + 1 
+WHERE id = 1;
+
+-- Deactivate user
+UPDATE users 
+SET is_active = FALSE 
+WHERE email = 'test@example.com';
+
+-- Update multiple fields
+UPDATE users 
+SET age = 29, city = 'Lviv' 
+WHERE id = 1;
+
+-- ===========================================
+-- DELETE - Deleting Data
+-- ===========================================
+
+-- Delete comment
+DELETE FROM comments WHERE id = 1;
+
+-- Delete post
+DELETE FROM posts WHERE id = 5;
+
+-- Delete user (will cascade delete their posts and comments)
+DELETE FROM users WHERE email = 'test@example.com';
+
+-- Delete inactive users
+DELETE FROM users WHERE is_active = FALSE;
+
+-- ===========================================
+-- COUNT, SUM, AVG - Aggregate Functions
+-- ===========================================
+
+-- Total number of users
+SELECT COUNT(*) as total_users FROM users;
+
+-- Number of active users
+SELECT COUNT(*) as active_users 
+FROM users 
+WHERE is_active = TRUE;
+
+-- Average user age
+SELECT AVG(age) as average_age FROM users;
+
+-- Total number of likes
+SELECT SUM(likes) as total_likes FROM posts;
+
+-- Post count per user
+SELECT 
+    user_id,
+    COUNT(*) as posts_count 
+FROM posts 
+GROUP BY user_id;
+
+-- ===========================================
+-- LIKE - Pattern Matching
+-- ===========================================
+
+-- Users with name containing "John"
+SELECT * FROM users WHERE name LIKE '%John%';
+
+-- Email ending with example.com
+SELECT * FROM users WHERE email LIKE '%@example.com';
+
+-- Posts with title starting with "Hello"
+SELECT * FROM posts WHERE title LIKE 'Hello%';
+
+-- ===========================================
+-- BETWEEN - Value Range
+-- ===========================================
+
+-- Users aged 25 to 30
+SELECT * FROM users WHERE age BETWEEN 25 AND 30;
+
+-- ===========================================
+-- IN - List of Values
+-- ===========================================
+
+-- Users from specific cities
+SELECT * FROM users 
+WHERE city IN ('Kyiv', 'Lviv', 'Odesa');
+
+-- ===========================================
+-- ORDER BY - Sorting
+-- ===========================================
+
+-- Users by age (youngest to oldest)
+SELECT * FROM users ORDER BY age ASC;
+
+-- Posts by likes count (highest to lowest)
+SELECT * FROM posts ORDER BY likes DESC;
+
+-- Users by registration date
+SELECT * FROM users ORDER BY created_at DESC;
+
+-- ===========================================
+-- LIMIT & OFFSET - Pagination
+-- ===========================================
+
+-- First 3 users
+SELECT * FROM users LIMIT 3;
+
+-- 3 users starting from 4th
+SELECT * FROM users LIMIT 3 OFFSET 3;
+
+-- ===========================================
+-- More Complex Queries for Testing
+-- ===========================================
+
+-- Top 3 most popular posts with authors
+SELECT 
+    posts.title,
+    users.name as author,
+    posts.likes
+FROM posts
+JOIN users ON posts.user_id = users.id
+ORDER BY posts.likes DESC
+LIMIT 3;
+
+-- Users without posts
+SELECT users.* 
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+WHERE posts.id IS NULL;
+
+-- Comment count for each post
+SELECT 
+    posts.title,
+    COUNT(comments.id) as comments_count
+FROM posts
+LEFT JOIN comments ON posts.id = comments.post_id
+GROUP BY posts.id
+ORDER BY comments_count DESC;
+
+-- ===========================================
+-- PostgreSQL Commands (psql)
+-- ===========================================
+
+-- Show all tables
+\dt
+
+-- Table structure
+\d users
+
+-- All databases
+\l
+
+-- Exit
+\q
+
+-- Execute SQL from file
+\i /path/to/file.sql
+
+-- Show all indexes
+\di
