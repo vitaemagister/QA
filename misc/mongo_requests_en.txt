@@ -1,0 +1,343 @@
+// ============================================
+// MongoDB Query Examples for QA Testing
+// ============================================
+
+// ===========================================
+// FIND - Retrieving Data
+// ===========================================
+
+// All documents in collection
+db.users.find()
+
+// All documents (formatted output)
+db.users.find().pretty()
+
+// Find by exact field value
+db.users.find({ name: "John" })
+
+// Find by email
+db.users.find({ email: "john@example.com" })
+
+// Find active users
+db.users.find({ isActive: true })
+
+// Find users older than 30
+db.users.find({ age: { $gt: 30 } })
+
+// Find users aged 25 or younger
+db.users.find({ age: { $lte: 25 } })
+
+// Find users aged between 25 and 35
+db.users.find({ age: { $gte: 25, $lte: 35 } })
+
+// Find by multiple conditions (AND)
+db.users.find({ isActive: true, city: "Kyiv" })
+
+// Find by OR condition
+db.users.find({ $or: [{ city: "Kyiv" }, { city: "Lviv" }] })
+
+// Find users from specific cities (IN)
+db.users.find({ city: { $in: ["Kyiv", "Lviv", "Odesa"] } })
+
+// Find users NOT from specific city
+db.users.find({ city: { $ne: "Kyiv" } })
+
+// Find where field exists
+db.users.find({ phone: { $exists: true } })
+
+// Find where field is null
+db.users.find({ phone: null })
+
+// ===========================================
+// FIND - Projection (Select specific fields)
+// ===========================================
+
+// Return only name and email (exclude _id)
+db.users.find({}, { name: 1, email: 1, _id: 0 })
+
+// Exclude specific fields
+db.users.find({}, { password: 0, __v: 0 })
+
+// ===========================================
+// FIND - Sorting, Limit, Skip
+// ===========================================
+
+// Sort by age ascending (1 = ASC, -1 = DESC)
+db.users.find().sort({ age: 1 })
+
+// Sort by creation date descending
+db.users.find().sort({ createdAt: -1 })
+
+// Limit results to 5
+db.users.find().limit(5)
+
+// Skip first 10 results
+db.users.find().skip(10)
+
+// Pagination: page 2, 10 items per page
+db.users.find().skip(10).limit(10)
+
+// Combined: sorted, limited
+db.users.find().sort({ createdAt: -1 }).limit(3)
+
+// ===========================================
+// FIND - Pattern Matching (Regex)
+// ===========================================
+
+// Name contains "John" (case sensitive)
+db.users.find({ name: /John/ })
+
+// Name contains "john" (case insensitive)
+db.users.find({ name: /john/i })
+
+// Email ends with @example.com
+db.users.find({ email: /@example\.com$/ })
+
+// Name starts with "A"
+db.users.find({ name: /^A/ })
+
+// ===========================================
+// FINDONE - Get Single Document
+// ===========================================
+
+// Find one by condition
+db.users.findOne({ email: "john@example.com" })
+
+// Find by _id
+db.users.findOne({ _id: ObjectId("507f1f77bcf86cd799439011") })
+
+// ===========================================
+// COUNT - Counting Documents
+// ===========================================
+
+// Count all documents
+db.users.countDocuments()
+
+// Count with condition
+db.users.countDocuments({ isActive: true })
+
+// Estimated count (faster, less accurate)
+db.users.estimatedDocumentCount()
+
+// ===========================================
+// INSERT - Adding Data
+// ===========================================
+
+// Insert one document
+db.users.insertOne({
+    name: "Test User",
+    email: "test@example.com",
+    age: 25,
+    city: "Kyiv",
+    isActive: true,
+    createdAt: new Date()
+})
+
+// Insert multiple documents
+db.users.insertMany([
+    { name: "User 1", email: "user1@example.com", age: 20 },
+    { name: "User 2", email: "user2@example.com", age: 25 },
+    { name: "User 3", email: "user3@example.com", age: 30 }
+])
+
+// ===========================================
+// UPDATE - Updating Data
+// ===========================================
+
+// Update one document
+db.users.updateOne(
+    { email: "test@example.com" },           // filter
+    { $set: { name: "Updated Name" } }       // update
+)
+
+// Update multiple fields
+db.users.updateOne(
+    { _id: ObjectId("507f1f77bcf86cd799439011") },
+    { $set: { name: "New Name", age: 30, city: "Lviv" } }
+)
+
+// Update many documents
+db.users.updateMany(
+    { city: "Kyiv" },
+    { $set: { country: "Ukraine" } }
+)
+
+// Increment numeric field
+db.posts.updateOne(
+    { _id: ObjectId("507f1f77bcf86cd799439011") },
+    { $inc: { likes: 1 } }
+)
+
+// Decrement numeric field
+db.posts.updateOne(
+    { _id: ObjectId("507f1f77bcf86cd799439011") },
+    { $inc: { likes: -1 } }
+)
+
+// Add to array
+db.users.updateOne(
+    { email: "test@example.com" },
+    { $push: { tags: "newTag" } }
+)
+
+// Remove from array
+db.users.updateOne(
+    { email: "test@example.com" },
+    { $pull: { tags: "oldTag" } }
+)
+
+// Update or insert (upsert)
+db.users.updateOne(
+    { email: "new@example.com" },
+    { $set: { name: "New User", email: "new@example.com" } },
+    { upsert: true }
+)
+
+// ===========================================
+// DELETE - Removing Data
+// ===========================================
+
+// Delete one document
+db.users.deleteOne({ email: "test@example.com" })
+
+// Delete by _id
+db.users.deleteOne({ _id: ObjectId("507f1f77bcf86cd799439011") })
+
+// Delete many documents
+db.users.deleteMany({ isActive: false })
+
+// Delete all documents in collection
+db.users.deleteMany({})
+
+// ===========================================
+// AGGREGATE - Aggregation Pipeline
+// ===========================================
+
+// Group by city and count
+db.users.aggregate([
+    { $group: { _id: "$city", count: { $sum: 1 } } }
+])
+
+// Group by city, sort by count descending
+db.users.aggregate([
+    { $group: { _id: "$city", count: { $sum: 1 } } },
+    { $sort: { count: -1 } }
+])
+
+// Average age by city
+db.users.aggregate([
+    { $group: { _id: "$city", avgAge: { $avg: "$age" } } }
+])
+
+// Filter, then group
+db.users.aggregate([
+    { $match: { isActive: true } },
+    { $group: { _id: "$city", count: { $sum: 1 } } }
+])
+
+// Lookup (JOIN equivalent)
+db.posts.aggregate([
+    {
+        $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "author"
+        }
+    }
+])
+
+// ===========================================
+// INDEX - Managing Indexes
+// ===========================================
+
+// Create index
+db.users.createIndex({ email: 1 })
+
+// Create unique index
+db.users.createIndex({ email: 1 }, { unique: true })
+
+// Create compound index
+db.users.createIndex({ city: 1, age: -1 })
+
+// List all indexes
+db.users.getIndexes()
+
+// Drop index
+db.users.dropIndex("email_1")
+
+// ===========================================
+// DATABASE & COLLECTION Commands
+// ===========================================
+
+// Show current database
+db
+
+// Switch database
+use myDatabase
+
+// Show all databases
+show dbs
+
+// Show all collections
+show collections
+
+// Create collection
+db.createCollection("newCollection")
+
+// Drop collection
+db.users.drop()
+
+// Drop database
+db.dropDatabase()
+
+// ===========================================
+// USEFUL COMMANDS
+// ===========================================
+
+// Get collection stats
+db.users.stats()
+
+// Get database stats
+db.stats()
+
+// Explain query (for performance analysis)
+db.users.find({ city: "Kyiv" }).explain("executionStats")
+
+// Get distinct values
+db.users.distinct("city")
+
+// ===========================================
+// COMPARISON OPERATORS
+// ===========================================
+
+// $eq  - equals
+// $ne  - not equals
+// $gt  - greater than
+// $gte - greater than or equal
+// $lt  - less than
+// $lte - less than or equal
+// $in  - in array
+// $nin - not in array
+
+// Examples:
+db.users.find({ age: { $eq: 25 } })    // age equals 25
+db.users.find({ age: { $ne: 25 } })    // age not equals 25
+db.users.find({ age: { $gt: 25 } })    // age greater than 25
+db.users.find({ age: { $gte: 25 } })   // age greater than or equal 25
+db.users.find({ age: { $lt: 25 } })    // age less than 25
+db.users.find({ age: { $lte: 25 } })   // age less than or equal 25
+
+// ===========================================
+// LOGICAL OPERATORS
+// ===========================================
+
+// $and - logical AND
+// $or  - logical OR
+// $not - logical NOT
+// $nor - logical NOR
+
+// Examples:
+db.users.find({ $and: [{ age: { $gte: 25 } }, { isActive: true }] })
+db.users.find({ $or: [{ city: "Kyiv" }, { city: "Lviv" }] })
+db.users.find({ age: { $not: { $gt: 30 } } })

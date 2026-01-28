@@ -1,138 +1,175 @@
 .PHONY: help build up down restart logs shell exec clean status open info backup restore
 
-# Кольори для виводу
+# ============================================
+# Output colors / Кольори для виводу
+# ============================================
 GREEN=\033[0;32m
 YELLOW=\033[1;33m
 RED=\033[0;31m
 NC=\033[0m # No Color
 
-# Змінні
+# ============================================
+# Variables / Змінні
+# ============================================
 CONTAINER_NAME=ubuntu-gui-qa
 COMPOSE_FILE=docker-compose.yml
 BACKUP_DIR=./backups
 
-help: ## Показати цю допомогу
-	@echo "$(GREEN)Доступні команди:$(NC)"
+# ============================================
+# HELP / ДОПОМОГА
+# ============================================
+help: ## Show this help / Показати цю допомогу
+	@echo "$(GREEN)Available commands / Доступні команди:$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-15s$(NC) %s\n", $$1, $$2}'
 
-build: ## Побудувати образ з нуля
-	@echo "$(GREEN)Будуємо Docker образ...$(NC)"
+# ============================================
+# BUILDxx` & RUN / ЗБІРКА ТА ЗАПУСК
+# ============================================
+build: ## Build image from scratch / Побудувати образ з нуля
+	@echo "$(GREEN)Building Docker image... / Будуємо Docker образ...$(NC)"
 	docker compose build --no-cache
 
-up: ## Запустити контейнер
-	@echo "$(GREEN)Запускаємо контейнер...$(NC)"
+up: ## Start container / Запустити контейнер
+	@echo "$(GREEN)Starting container... / Запускаємо контейнер...$(NC)"
 	docker compose up -d
-	@echo "$(GREEN)✓ Контейнер запущено!$(NC)"
-	@echo "$(YELLOW)Відкрийте браузер: http://localhost:6080$(NC)"
+	@echo "$(GREEN)✓ Container started! / Контейнер запущено!$(NC)"
+	@echo "$(YELLOW)Open browser: http://localhost:6080 / Відкрийте браузер: http://localhost:6080$(NC)"
 
-down: ## Зупинити і видалити контейнер
-	@echo "$(RED)Зупиняємо контейнер...$(NC)"
+down: ## Stop and remove container / Зупинити і видалити контейнер
+	@echo "$(RED)Stopping container... / Зупиняємо контейнер...$(NC)"
 	docker compose down
 
-restart: ## Перезапустити контейнер
-	@echo "$(YELLOW)Перезапускаємо...$(NC)"
+restart: ## Restart container / Перезапустити контейнер
+	@echo "$(YELLOW)Restarting... / Перезапускаємо...$(NC)"
 	@make down
 	@make up
 
-rebuild: ## Перебудувати і запустити заново
-	@echo "$(YELLOW)Перебудовуємо все з нуля...$(NC)"
+rebuild: ## Rebuild and restart from scratch / Перебудувати і запустити заново
+	@echo "$(YELLOW)Rebuilding everything... / Перебудовуємо все з нуля...$(NC)"
 	@make down
 	@make build
 	@make up
 
-logs: ## Показати логи контейнера
+# ============================================
+# LOGS / ЛОГИ
+# ============================================
+logs: ## Show container logs / Показати логи контейнера
 	docker logs $(CONTAINER_NAME)
 
-logs-f: ## Показати логи в реальному часі (Ctrl+C для виходу)
+logs-f: ## Show logs in real-time (Ctrl+C to exit) / Показати логи в реальному часі
 	docker logs -f $(CONTAINER_NAME)
 
-shell: ## Зайти в термінал контейнера як qauser
-	@echo "$(GREEN)Заходимо в контейнер як qauser...$(NC)"
+# ============================================
+# SHELL ACCESS / ДОСТУП ДО ТЕРМІНАЛУ
+# ============================================
+shell: ## Enter container terminal as qauser / Зайти в термінал як qauser
+	@echo "$(GREEN)Entering container as qauser... / Заходимо в контейнер як qauser...$(NC)"
 	docker exec -it -u qauser $(CONTAINER_NAME) bash
 
-root-shell: ## Зайти в термінал контейнера як root
-	@echo "$(RED)Заходимо в контейнер як root...$(NC)"
+root-shell: ## Enter container terminal as root / Зайти в термінал як root
+	@echo "$(RED)Entering container as root... / Заходимо в контейнер як root...$(NC)"
 	docker exec -it $(CONTAINER_NAME) bash
 
-exec: ## Виконати команду в контейнері (використання: make exec CMD="ls -la")
+exec: ## Execute command in container (usage: make exec CMD="ls -la") / Виконати команду в контейнері
 	docker exec -it $(CONTAINER_NAME) bash -c "$(CMD)"
 
-status: ## Показати статус контейнера
-	@echo "$(GREEN)Статус контейнера:$(NC)"
-	@docker ps -a | grep $(CONTAINER_NAME) || echo "Контейнер не знайдено"
+# ============================================
+# STATUS & INFO / СТАТУС ТА ІНФОРМАЦІЯ
+# ============================================
+status: ## Show container status / Показати статус контейнера
+	@echo "$(GREEN)Container status / Статус контейнера:$(NC)"
+	@docker ps -a | grep $(CONTAINER_NAME) || echo "Container not found / Контейнер не знайдено"
 
-clean: ## Видалити контейнер і образи (volumes залишаться)
-	@echo "$(RED)Видаляємо контейнер і образи...$(NC)"
+# ============================================
+# CLEANUP / ОЧИСТКА
+# ============================================
+clean: ## Remove container and images (volumes remain) / Видалити контейнер і образи (volumes залишаться)
+	@echo "$(RED)Removing container and images... / Видаляємо контейнер і образи...$(NC)"
 	docker compose down --rmi all
 
-clean-all: ## Видалити ВСЕ включно з volumes (ОБЕРЕЖНО!)
-	@echo "$(RED)⚠️  УВАГА! Видаляємо ВСЕ включно з даними!$(NC)"
-	@read -p "Впевнені? [y/N] " -n 1 -r; \
+clean-all: ## Remove EVERYTHING including volumes (CAUTION!) / Видалити ВСЕ включно з volumes (ОБЕРЕЖНО!)
+	@echo "$(RED)⚠️  WARNING! Removing EVERYTHING including data! / УВАГА! Видаляємо ВСЕ включно з даними!$(NC)"
+	@read -p "Are you sure? / Впевнені? [y/N] " -n 1 -r; \
 	echo; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		docker compose down -v --rmi all; \
-		echo "$(RED)✓ Все видалено!$(NC)"; \
+		echo "$(RED)✓ Everything removed! / Все видалено!$(NC)"; \
 	else \
-		echo "$(YELLOW)Скасовано$(NC)"; \
+		echo "$(YELLOW)Cancelled / Скасовано$(NC)"; \
 	fi
 
-open: ## Відкрити в браузері
-	@echo "$(GREEN)Відкриваємо http://localhost:6080$(NC)"
+# ============================================
+# BROWSER / БРАУЗЕР
+# ============================================
+open: ## Open in browser / Відкрити в браузері
+	@echo "$(GREEN)Opening http://localhost:6080 / Відкриваємо http://localhost:6080$(NC)"
 	@if command -v xdg-open > /dev/null; then \
 		xdg-open http://localhost:6080; \
 	elif command -v open > /dev/null; then \
 		open http://localhost:6080; \
 	else \
-		echo "$(YELLOW)Відкрийте вручну: http://localhost:6080$(NC)"; \
+		echo "$(YELLOW)Open manually: http://localhost:6080 / Відкрийте вручну: http://localhost:6080$(NC)"; \
 	fi
 
-info: ## Показати детальну інформацію про систему
-	@echo "$(GREEN)=== Інформація про Docker ===$(NC)"
+# ============================================
+# SYSTEM INFO / СИСТЕМНА ІНФОРМАЦІЯ
+# ============================================
+info: ## Show detailed system info / Показати детальну інформацію про систему
+	@echo "$(GREEN)=== Docker Info / Інформація про Docker ===$(NC)"
 	@docker --version
 	@docker compose version
-	@echo "\n$(GREEN)=== Розмір образів ===$(NC)"
-	@docker images | grep ubuntu-gui || echo "Образ не знайдено"
-	@echo "\n$(GREEN)=== Використання диску ===$(NC)"
+	@echo "\n$(GREEN)=== Image size / Розмір образів ===$(NC)"
+	@docker images | grep ubuntu-gui || echo "Image not found / Образ не знайдено"
+	@echo "\n$(GREEN)=== Disk usage / Використання диску ===$(NC)"
 	@docker system df
 	@echo "\n$(GREEN)=== Volumes ===$(NC)"
-	@docker volume ls | grep raw_tests || echo "Volumes не знайдено"
+	@docker volume ls | grep raw_tests || echo "Volumes not found / Volumes не знайдено"
 
-backup: ## Створити backup workspace
-	@echo "$(GREEN)Створюємо backup...$(NC)"
+# ============================================
+# BACKUP & RESTORE / РЕЗЕРВНІ КОПІЇ
+# ============================================
+backup: ## Create workspace backup / Створити backup workspace
+	@echo "$(GREEN)Creating backup... / Створюємо backup...$(NC)"
 	@mkdir -p $(BACKUP_DIR)
 	@tar -czf $(BACKUP_DIR)/workspace-backup-$$(date +%Y%m%d-%H%M%S).tar.gz workspace/
-	@echo "$(GREEN)✓ Backup створено в $(BACKUP_DIR)$(NC)"
+	@echo "$(GREEN)✓ Backup created in $(BACKUP_DIR) / Backup створено в $(BACKUP_DIR)$(NC)"
 
-restore: ## Відновити останній backup (використання: make restore BACKUP=filename.tar.gz)
+restore: ## Restore last backup (usage: make restore BACKUP=filename.tar.gz) / Відновити останній backup
 	@if [ -z "$(BACKUP)" ]; then \
-		echo "$(RED)Помилка: вкажіть файл backup$(NC)"; \
-		echo "Приклад: make restore BACKUP=workspace-backup-20241121-120000.tar.gz"; \
+		echo "$(RED)Error: specify backup file / Помилка: вкажіть файл backup$(NC)"; \
+		echo "Example / Приклад: make restore BACKUP=workspace-backup-20241121-120000.tar.gz"; \
 		exit 1; \
 	fi
-	@echo "$(YELLOW)Відновлюємо backup: $(BACKUP)$(NC)"
+	@echo "$(YELLOW)Restoring backup: $(BACKUP) / Відновлюємо backup: $(BACKUP)$(NC)"
 	@tar -xzf $(BACKUP_DIR)/$(BACKUP) -C ./
-	@echo "$(GREEN)✓ Backup відновлено!$(NC)"
+	@echo "$(GREEN)✓ Backup restored! / Backup відновлено!$(NC)"
 
-list-backups: ## Показати всі backups
-	@echo "$(GREEN)Доступні backups:$(NC)"
-	@ls -lh $(BACKUP_DIR)/ 2>/dev/null || echo "Backups не знайдено"
+list-backups: ## List all backups / Показати всі backups
+	@echo "$(GREEN)Available backups / Доступні backups:$(NC)"
+	@ls -lh $(BACKUP_DIR)/ 2>/dev/null || echo "No backups found / Backups не знайдено"
 
-update-deps: ## Оновити всі пакети в контейнері
-	@echo "$(GREEN)Оновлюємо пакети...$(NC)"
+# ============================================
+# PACKAGE MANAGEMENT / УПРАВЛІННЯ ПАКЕТАМИ
+# ============================================
+update-deps: ## Update all packages in container / Оновити всі пакети в контейнері
+	@echo "$(GREEN)Updating packages... / Оновлюємо пакети...$(NC)"
 	@docker exec -it $(CONTAINER_NAME) bash -c "apt-get update && apt-get upgrade -y"
 
-install: ## Встановити програму (використання: make install PKG=chromium)
+install: ## Install package (usage: make install PKG=chromium) / Встановити програму
 	@if [ -z "$(PKG)" ]; then \
-		echo "$(RED)Помилка: вкажіть пакет$(NC)"; \
-		echo "Приклад: make install PKG=chromium"; \
+		echo "$(RED)Error: specify package / Помилка: вкажіть пакет$(NC)"; \
+		echo "Example / Приклад: make install PKG=chromium"; \
 		exit 1; \
 	fi
-	@echo "$(GREEN)Встановлюємо $(PKG)...$(NC)"
+	@echo "$(GREEN)Installing $(PKG)... / Встановлюємо $(PKG)...$(NC)"
 	@docker exec -it $(CONTAINER_NAME) bash -c "apt-get update && apt-get install -y $(PKG)"
 
-stats: ## Показати використання ресурсів контейнера
+# ============================================
+# MONITORING / МОНІТОРИНГ
+# ============================================
+stats: ## Show container resource usage / Показати використання ресурсів контейнера
 	@docker stats $(CONTAINER_NAME) --no-stream
 
-ports: ## Показати відкриті порти
-	@echo "$(GREEN)Відкриті порти:$(NC)"
+ports: ## Show open ports / Показати відкриті порти
+	@echo "$(GREEN)Open ports / Відкриті порти:$(NC)"
 	@docker port $(CONTAINER_NAME)

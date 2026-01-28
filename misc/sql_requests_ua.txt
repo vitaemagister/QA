@@ -27,7 +27,7 @@ SELECT * FROM posts;
 -- Пости конкретного користувача
 SELECT * FROM posts WHERE user_id = 1;
 
--- Пости з більш ніж 10 лайків
+-- Пости з більш ніж 10 лайків  
 SELECT * FROM posts WHERE likes > 10;
 
 -- Пости з сортуванням
