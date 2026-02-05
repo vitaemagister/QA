@@ -11,13 +11,14 @@ Everything you need to quickly set up a testing environment, run API tools, or a
 QA/
 ├── simple-api/          # REST API + Web UI + PostgreSQL
 ├── email_server/        # MailHog for local email testing
-├── files/              # Test files (images, videos, docs, etc.)
-├── site/               # Practice website with bugs
-├── scripts/            # Automated tool installation
-├── Kiwi_testcase_management/  # Test case management system
-├── AI/                 # AI prompts for testing
-├── misc/               # Useful QA resources and links
-└── raw_tests/          # Additional test utilities
+├── files/               # Test files (images, videos, docs, etc.)
+├── templates/           # QA document templates (bug reports, test cases, test plans)
+├── site/                # Practice website with bugs
+├── scripts/             # Automated tool installation
+├── Kiwi_testcase_managment/  # Test case management system
+├── AI/                  # AI prompts for testing
+├── misc/                # Useful QA resources and links
+└── raw_tests/           # Ubuntu GUI in Docker for testing
 ```
 
 ---
@@ -44,6 +45,11 @@ Ready-to-use test files for various testing scenarios.
 - **Special files:** Empty files, 0-10000 symbol files
 - **Use for:** File upload testing, format validation, boundary testing
 
+### **templates/** - QA Document Templates
+Ready-to-use templates for QA documentation (EN/UA).
+- **Includes:** Bug report, Test case, Test plan templates
+- **Formats:** .docx, .xlsx
+
 ### **site/** - Practice Testing Website
 Simple frontend with intentional bugs for testing practice.
 - **Features:** Buggy forms, multi-language support
@@ -56,7 +62,7 @@ Quick setup of QA tools on Linux systems.
 - **Usage:** `cd scripts && ./install-tools.sh`
 - **Platform:** Ubuntu/Debian Linux
 
-### **Kiwi_testcase_management/** - Test Case Management
+### **Kiwi_testcase_managment/** - Test Case Management
 Self-hosted test management system (Kiwi TCMS).
 - **Features:** Test case management, test plans, execution tracking
 - **Installation:** Run `./kiwi_install.sh`
@@ -67,9 +73,15 @@ Ready-to-use prompts for AI-assisted testing (English and Ukrainian versions ava
 - **Use for:** Generate test cases, get test data, learn QA practices
 
 ### **misc/** - Useful Resources
-Curated list of 15+ essential QA tools and websites.
-- **Includes:** Test data generators, temp emails, performance tools, regex testers
-- **File:** `useful_resources_links.txt`
+Curated list of essential QA tools, websites and SQL/MongoDB syntax examples.
+- **Includes:** Test data generators, temp emails, SQL queries, MongoDB queries
+- **Files:** `useful_resources_links.txt`, `sql_requests_en.txt`, `mongo_requests_en.txt`
+
+### **raw_tests/** - Ubuntu GUI in Docker
+Full Ubuntu desktop with QA tools accessible via browser (noVNC).
+- **Includes:** Firefox, Chromium, Postman, Flameshot, Kazam
+- **Access:** http://localhost:6080 (password: `password`)
+- **Usage:** `cd raw_tests && make up`
 
 ---
 
