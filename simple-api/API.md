@@ -1,6 +1,6 @@
-# Simple API + Web UI
+# Simple API + Web UI + Swagger
 
-Повноцінна система управління користувачами з REST API та веб-інтерфейсом.
+Повноцінна система управління користувачами з REST API, веб-інтерфейсом та Swagger документацією.
 
 ## 🚀 Швидкий старт
 
@@ -11,8 +11,17 @@ docker compose up -d
 
 Все запуститься:
 - 🌐 **Web UI**: http://localhost:3000
+- 📚 **Swagger UI**: http://localhost:3000/api-docs
 - 🔌 **API**: http://localhost:3000/users
 - 🗄️ **PostgreSQL**: localhost:5432
+
+## 📚 Swagger документація
+
+Відкрийте http://localhost:3000/api-docs для інтерактивної API документації.
+Swagger UI дозволяє:
+- Переглядати всі доступні endpoints
+- Тестувати API запити безпосередньо з браузера
+- Бачити схеми request/response
 
 ## 📋 API Endpoints
 
