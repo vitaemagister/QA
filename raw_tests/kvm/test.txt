@@ -1,0 +1,17 @@
+sudo apt update
+sudo apt install -y \
+  qemu-kvm \
+  libvirt-daemon-system \
+  libvirt-clients \
+  virt-manager \
+  bridge-utils
+
+
+sudo usermod -aG libvirt,kvm $USER
+newgrp libvirt
+
+
+virsh list --all
+
+
+lsmod | grep kvm
