@@ -1,8 +1,8 @@
-# Email Server з MailHog + Gmail
+# Email Server with MailHog + Gmail
 
-Тестовий email сервер з підтримкою локальної відправки (MailHog) та глобальної відправки через Gmail.
+Test email server with local sending support (MailHog) and global sending via Gmail SMTP.
 
-## 🚀 Швидкий старт
+## 🚀 Quick Start
 
 ```bash
 cd email_server
@@ -12,9 +12,9 @@ docker compose up -d
 - 📧 **API**: http://localhost:3001
 - 📬 **MailHog UI**: http://localhost:8025
 
-## 📋 Endpoints
+## 📋 API Endpoints
 
-### 1. Відправка через MailHog (локально)
+### 1. Send via MailHog (Local Testing)
 ```bash
 POST http://localhost:3001/send-email
 Content-Type: application/json
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 ```
 
-### 2. Відправка через Gmail (глобально)
+### 2. Send via Gmail (Global/Production)
 ```bash
 POST http://localhost:3001/send-email-gmail
 Content-Type: application/json
@@ -40,43 +40,31 @@ Content-Type: application/json
 }
 ```
 
-## 🔐 Налаштування Gmail SMTP
+## 🔐 Gmail SMTP Configuration
 
-Щоб відправляти листи через Gmail:
+To send emails through Gmail:
 
-### Крок 1: Створіть App Password в Google Account
-1. Перейдіть на https://myaccount.google.com/security
-2. Увімкніть **2-Step Verification** (якщо ще не увімкнено)
-3. Перейдіть до **App passwords**: https://myaccount.google.com/apppasswords
-4. Створіть новий App Password для "Mail"
-5. Скопіюйте згенерований 16-символьний пароль
+### Step 1: Create App Password in Google Account
+1. Go to https://myaccount.google.com/security
+2. Enable **2-Step Verification** (if not already enabled)
+3. Navigate to **App passwords**: https://myaccount.google.com/apppasswords
+4. Create a new App Password for "Mail"
+5. Copy the generated 16-character password
 
-### Крок 2: Додайте credentials до docker-compose.yml
+### Step 2: Add credentials to .env file
 
-Відредагуйте `docker-compose.yml` та розкоментуйте рядки:
+Create a `.env` file in the `email_server` directory:
 
-```yaml
-environment:
-  - GMAIL_USER=your-email@gmail.com
-  - GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
-```
-
-Або створіть `.env` файл:
 ```env
 GMAIL_USER=your-email@gmail.com
 GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
 ```
 
-І оновіть `docker-compose.yml`:
-```yaml
-environment:
-  - SMTP_HOST=mailhog
-  - SMTP_PORT=1025
-  - GMAIL_USER=${GMAIL_USER}
-  - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
-```
+**Note:** Remove spaces from the App Password (should be 16 characters without spaces)
 
-### Крок 3: Перезапустіть контейнери
+The `docker-compose.yml` is already configured to use these variables via `${GMAIL_USER}` and `${GMAIL_APP_PASSWORD}`.
+
+### Step 3: Restart containers
 ```bash
 docker compose down
 docker compose up --build -d
@@ -94,9 +82,9 @@ curl -X POST http://localhost:3001/send-email \
     "text": "This goes to MailHog"
   }'
 ```
+Testing
 
-Перевірте лист на http://localhost:8025
-
+### Local sending
 ### Відправка через Gmail:
 ```bash
 curl -X POST http://localhost:3001/send-email-gmail \
@@ -107,37 +95,22 @@ curl -X POST http://localhost:3001/send-email-gmail \
     "text": "This is sent via Gmail SMTP"
   }'
 ```
+Check the email at http://localhost:8025
 
-Лист прийде на реальну адресу.
-
+### Sending via
 ## 📝 Приклади використання
 
 ### З Postman
 Імпортуйте ці запити або створіть колекцію:
 
-**Local Email:**
-- Method: `POST`
-- URL: `http://localhost:3001/send-email`
-- Body (JSON):
-  ```json
-  {
-    "to": "test@test.com",
-    "subject": "Test",
-    "html": "<h1>Hello</h1>"
-  }
-  ```
+- Send Email via MailHog (Local)
+- Send Email via Gmail (Global)
+- Send HTML Email with Custom From
+- Send Plain Text Email
+- Send Email with Multiple Recipients
+- Error handling test cases
 
-**Gmail Email:**
-- Method: `POST`
-- URL: `http://localhost:3001/send-email-gmail`
-- Body (JSON):
-  ```json
-  {
-    "to": "recipient@gmail.com",
-    "subject": "Real Test",
-    "text": "Real email content"
-  }
-  ```
+### Node.js Example
 
 ### З Node.js
 ```javascript
@@ -158,14 +131,14 @@ await axios.post('http://localhost:3001/send-email-gmail', {
 });
 ```
 
-## 🛠️ Troubleshooting
+## Local sending
+await axios.post('http://localhost:3001/send-email', {
+  to: 'test@example.com',
+  subject: 'Test',
+  html: '<h1>Hello</h1>'
+});
 
-### Gmail відправка не працює
-- Переконайтеся, що ви використовуєте **App Password**, а не звичайний пароль
-- Перевірте, що 2-Step Verification увімкнено
-- Перевірте логи: `docker logs mailhog-api`
-
-### MailHog не показує листи
+// Sending viaазує листи
 - Відкрийте http://localhost:8025
 - Перевірте, що контейнери запущені: `docker ps`
 - Перевірте логи: `docker logs mailhog`
@@ -175,18 +148,84 @@ await axios.post('http://localhost:3001/send-email-gmail', {
 ### Варіант 1: Використовувати ngrok для отримання листів ззовні
 Якщо потрібно приймати листи з інтернету на локальний SMTP сервер:
 ```bash
-ngrok tcp 1025
+ngrok tcp sending not working
+- Make sure you're using an **App Password**, not your regular password
+- Verify 2-Step Verification is enabled
+- Check logs: `docker logs mailhog-api`
+- Ensure no spaces in the App Password in `.env` file
+
+### MailHog not showing emails
+- Open http://localhost:8025
+- Check containers are running: `docker ps`
+- Check logs: `docker logs mailhog`
+
+### TLS handshake timeout during build
+- Check internet connection
+- Try again: `docker compose build`
+- Restart Docker: `sudo systemctl restart docker`
+- Configure Docker DNS in `/etc/docker/daemon.json`:
+  ```json
+  {
+    "dns": ["8.8.8.8", "8.8.4.4"]
+  }
+  ```
+
+## 📂 Project Structure            # Container configuration
+├── Dockerfile                      # Docker image for API
+├── server.js                       # Express API with endpoints
+├── package.json                    # Dependencies
+├── .env                           # Environment variables (not in git)
+├── .env.example                   # Example env file
+├── README.md                      # Documentation
+└── postman_collection/
+    └── email_server.postman_collection.json  # Postman collection
 ```
 
-### Варіант 2: Використовувати SendGrid/Mailgun API
-Замість Gmail можна налаштувати інші SMTP провайдери.
+## 📚 API Documentation
 
-## 📂 Структура проекту
+### POST /send-email
+Sends email to local MailHog SMTP server for testing.
+
+**Request Body:**
+```json
+{
+  "to": "recipient@example.com",
+  "subject": "Email subject",
+  "text": "Plain text content (optional)",
+  "html": "HTML content (optional)"
+}
 ```
-email_server/
-├── docker-compose.yml  # Конфігурація контейнерів
-├── Dockerfile          # Docker image для API
-├── server.js           # Express API з endpoints
-├── package.json        # Dependencies
-└── README.md          # Документація
+
+**Response (200):**
+```json
+{
+  "message": "Email sent to MailHog",
+  "info": { ... }
+}
 ```
+
+### POST /send-email-gmail
+Sends email through Gmail SMTP server globally.
+
+**Request Body:**
+```json
+{
+  "to": "recipient@example.com",
+  "subject": "Email subject",
+  "text": "Plain text content (optional)",
+  "html": "HTML content (optional)",
+  "from": "Custom Sender <sender@gmail.com> (optional)"
+}
+```
+
+**Response (200):**
+```json
+{
+  "message": "Email sent via Gmail",
+  "messageId": "<unique-message-id>"
+}
+```
+
+**Error Responses:**
+- `400` - Missing required fields (to, subject)
+- `500` - Gmail credentials not configured / Send failed

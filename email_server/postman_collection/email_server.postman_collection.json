@@ -1,0 +1,159 @@
+{
+  "info": {
+    "name": "Email Server API",
+    "description": "Collection for testing email server with MailHog (local) and Gmail (global) sending capabilities",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Send Email via MailHog (Local)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"test@example.com\",\n  \"subject\": \"Test Email via MailHog\",\n  \"text\": \"This is a plain text email sent to MailHog for testing\",\n  \"html\": \"<h1>Test Email</h1><p>This is an HTML email sent to <strong>MailHog</strong> for testing purposes.</p>\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email"]
+        },
+        "description": "Sends an email to MailHog SMTP server for local testing. Check MailHog UI at http://localhost:8025 to see the email."
+      },
+      "response": []
+    },
+    {
+      "name": "Send Email via Gmail (Global)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"recipient@gmail.com\",\n  \"subject\": \"Test Email via Gmail SMTP\",\n  \"text\": \"This is a real email sent through Gmail SMTP server\",\n  \"html\": \"<h1>Real Email</h1><p>This email was sent through <strong>Gmail SMTP</strong> and will arrive at the recipient's inbox.</p><p>Sent from QA test server.</p>\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email-gmail",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email-gmail"]
+        },
+        "description": "Sends a real email through Gmail SMTP server. Requires GMAIL_USER and GMAIL_APP_PASSWORD environment variables to be configured in docker-compose.yml"
+      },
+      "response": []
+    },
+    {
+      "name": "Send HTML Email with Custom From (Gmail)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"recipient@example.com\",\n  \"from\": \"QA Test Server <qa-testing@gmail.com>\",\n  \"subject\": \"Test Report - Automated Email\",\n  \"html\": \"<html><body><h2>Test Execution Report</h2><table border='1'><tr><th>Test Case</th><th>Status</th></tr><tr><td>Login Test</td><td style='color:green'>PASSED</td></tr><tr><td>API Test</td><td style='color:green'>PASSED</td></tr></table><p>All tests completed successfully.</p></body></html>\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email-gmail",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email-gmail"]
+        },
+        "description": "Example of sending a formatted HTML email with custom sender name through Gmail SMTP. Useful for automated test reports."
+      },
+      "response": []
+    },
+    {
+      "name": "Send Plain Text Email (MailHog)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"user@test.com\",\n  \"subject\": \"Plain Text Test\",\n  \"text\": \"This is a simple plain text email without HTML formatting. Perfect for testing basic email functionality.\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email"]
+        },
+        "description": "Sends a plain text only email to MailHog. No HTML content included."
+      },
+      "response": []
+    },
+    {
+      "name": "Send Email with Multiple Recipients (Gmail)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"user1@gmail.com, user2@gmail.com, user3@example.com\",\n  \"subject\": \"Team Notification\",\n  \"text\": \"This email is sent to multiple recipients\",\n  \"html\": \"<h2>Team Update</h2><p>This is a notification sent to multiple team members.</p><ul><li>Project update 1</li><li>Project update 2</li></ul>\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email-gmail",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email-gmail"]
+        },
+        "description": "Example of sending an email to multiple recipients. Separate email addresses with commas."
+      },
+      "response": []
+    },
+    {
+      "name": "Error: Missing Required Fields",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"test@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/send-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["send-email"]
+        },
+        "description": "Test case for missing required field 'subject'. Should return 400 Bad Request error."
+      },
+      "response": []
+    }
+  ]
+}
